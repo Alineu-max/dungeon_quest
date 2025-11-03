@@ -2,6 +2,14 @@ import random
 
 def main():
     def setup_player():
+
+        name = input("Enter your name: ")
+        player = {
+            "name": name,
+            "health": 10,
+            "inventory": []
+        }
+        return player
         """
         Prompts the user to create their player profile.
 
@@ -21,6 +29,15 @@ def main():
 
 
     def create_treasures():
+
+        treasures ={ "gold coin": 5,
+                    "ruby": 10,
+                    "ancient scroll": 7,
+                    "emerald": 9,
+                    "silver ring": 4
+
+        }
+        return treasures
         """
         Creates a dictionary of treasures, where each treasure has a value.
 
@@ -41,6 +58,13 @@ def main():
 
 
     def display_options(room_number):
+
+        print(f"\nYou are in room {room_number}.")
+        print("what would you like to do?")
+        print("1. Search for treasure")
+        print("2. Move to next room")
+        print("3 check health and inventory")
+        print("4. Quit the game")
         """
         Displays available options for the player in the current room.
 
@@ -59,6 +83,16 @@ def main():
 
 
     def search_room(player, treasures):
+        outcome = random.choice(["treasure", "trap"])
+
+        if outcome == "treasure":
+            item = random.choice(list(treasures.keys()))
+            player["inventory"].append(item)
+            print[f"You found a {item}!"]
+
+        else:
+            player["health"] -= 2
+            print("you hit a trap! you lost 2 heath.")
         """
         Simulates searching the current room.
 
@@ -82,6 +116,12 @@ def main():
 
 
     def check_status(player):
+        print(f"\nHealth: {player['health']}")
+        if player["inventory"]:
+            print(Inventory:",",".join(player["inventory"]))
+        else:
+            print("Inventory: you have no items yet.")   
+
         """
         Displays the player’s current health and inventory.
 
@@ -101,6 +141,13 @@ def main():
 
 
     def end_game(player, treasures):
+        total_value = sum(treasures[item] for item in player["inventory"])
+        print('\nGame Over!')
+        print(f'Final Health: {player['inventory'])
+        print("Inventory:", ",".join(player["inventory"]) if player ["inventory"] else "None")
+        print(f"Total treasure value: {total_value}")
+        print("Thanks for playing!")    
+
         """
         Ends the game and displays a summary.
 
@@ -117,6 +164,33 @@ def main():
 
 
     def run_game_loop(player, treasures):
+        for room in range (1, 6):
+            if player["health"] <= 0:
+               break
+               
+            while True:
+                display_options(search_room)
+                choice = input("Enter choice (1-4): ")
+
+                if choice == "1":
+                   search_room(player, treasures)
+                   if player["health"] <= 0:
+                      break
+                      
+                elif choice == "2":
+                     print("Moving to next room...")  
+                     break
+                elif choice == "3":
+                     check_status(player)
+                elif choice == "4":
+                    print("Existing game...")
+                    end_game(player, treasures)
+                    return
+                else:
+                    print("Invalid choice")
+
+            end_game(player, treasures)
+ 
         """
         Main game loop that manages the rooms and player decisions.
 
